@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -7,34 +13,44 @@ import java.util.*;
  */
 public class WordLabber {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-
-        System.out.print(
-                "Java Wordladder implemented by 516030910460.\nInput <quit> to quit the program.\nInput the file name: ");
-        String filename = in.next();
-        if (filename.equals("<quit>")) {
-            in.close();
-            System.exit(0);
+        if (args.length != 3) {
+            System.out.println("Args are not enough.");
+            System.exit(1);
         }
 
-        System.out.print("Input the first word or input <quit> to quit the program: ");
-        String word_1 = in.next();
-        if (word_1.equals("<quit>")) {
-            in.close();
-            System.exit(0);
-        }
+        try {
+            // Build the dictionary.
+            Set<String> dictionary = dictionaryBuilder(args[0]);
 
-        System.out.print("Input the second word or input <quit> to quit the program: ");
-        String word_2 = in.next();
-        if (word_2.equals("<quit>")) {
-            in.close();
-            System.exit(0);
-        }
+            // Get two words and try to find the shortest path.
+            ladder(args[1], args[2], dictionary);
 
-        ladder(word_1, word_2);
-        in.close();
+            System.exit(0);
+        } catch (Exception e) {
+            System.out.println("SBWrong file name.");
+            System.exit(1);
+        }
     }
 
-    static void ladder(String word_1, String word_2) {
+    static Set<String> dictionaryBuilder(String file_name) throws IOException {
+        File dic = new File(file_name);
+        FileInputStream fin = new FileInputStream(dic);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fin));
+
+        String line = null;
+        Set<String> dictionary = new HashSet<>();
+        while ((line = br.readLine()) != null) {
+            dictionary.add(line);
+        }
+
+        br.close();
+        return dictionary;
+    }
+
+    static void ladder(String word_1, String word_2, Set<String> dictionary) {
+        if (word_1.length() != word_2.length()) {
+            System.out.println("The words must have the same length.");
+            System.exit(1);
+        }
     }
 }
