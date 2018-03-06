@@ -7,11 +7,11 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * WordLabber
+ * WordLadder
  * @author 516030910460
  * @version 0.0.1
  */
-public class WordLabber {
+public class WordLadder {
     public static void main(String[] args) {
         if (args.length != 3) {
             System.out.println("Args are not enough.");
@@ -22,12 +22,12 @@ public class WordLabber {
             // Build the dictionary.
             Set<String> dictionary = dictionaryBuilder(args[0]);
 
-            // Get two words and try to find the shortest path.
+            // Try to find the shortest path.
             ladder(args[1], args[2], dictionary);
 
             System.exit(0);
-        } catch (Exception e) {
-            System.out.println("SBWrong file name.");
+        } catch (IOException e) {
+            System.out.println("Wrong file name.");
             System.exit(1);
         }
     }
@@ -52,5 +52,13 @@ public class WordLabber {
             System.out.println("The words must have the same length.");
             System.exit(1);
         }
+
+        Set<String> small_dictionary = new HashSet<>();
+        for (String str : dictionary)
+            if (str.length() == word_1.length())
+                small_dictionary.add(str);
+        
+        int size_of_dictionary = small_dictionary.size();
+        List<String> path = new LinkedList<>();
     }
 }
